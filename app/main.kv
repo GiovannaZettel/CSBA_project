@@ -1,75 +1,109 @@
-<BoxLayout>:
+<PedidoApp>:
     orientation: 'vertical'
-    padding: 8
-    spacing: 8
-    
     Label:
         text: 'Pizza do Papa'
         font_size: 20
         size_hint_y: 0.50
     BoxLayout:
-        orientation: 'horizontal'
+        orientation:'horizontal'
         size_hint_y: 0.20
         Label:
-            text:'Clientes'
+            text: 'Cliente: '
         TextInput:
-            hint_text: 'Digite seu nome'
-    
-    Spinner:
-        text: 'Escolha um Sabor'
-        values: 'Quatro queijos', 'Mussarela', 'Portuguesa', 'Calabresa', 'Frango catupiry', 'Crocante'
-    
-    Spinner:
-        text: 'Esolha o tamanho'
-        values: 'Broto', 'Média', 'Grande', 'Gigante'
-    
+            id: nome_usuario
+            hint_text: 'Digite seu nome: '
     BoxLayout:
-        orientation: 'vertical'
+        orientation:'horizontal'
+        size_hint_y: 0.50
+        Label:
+            text: 'Produtos'
+        Label:
+            text: 'Quantidades'
+    GridLayout:
+        cols: 3
+        size_hint_y: 1.50
+        CheckBox:
+            id: q_queijo
+        Label:
+            text:'Quatro queijos'
+        TextInput:
+            id: q1
+            text:''
+
+        CheckBox:
+            id: Mus
+        Label:
+            text:'Mussarela'
+        TextInput:
+            id: q2
+            text:''
+
+        CheckBox:
+            id: clabrsa
+        Label:
+            text:'Calabresa'
+        TextInput:
+            id: q3
+            text:''
+
+        CheckBox:
+            id: portu
+        Label:
+            text:'Portuguesa'
+        TextInput:
+            id: q4
+            text:''
+        CheckBox:
+            id: cat
+        Label:
+            text:'Frango c/ Catupiy'
+        TextInput:
+            id: q5
+            text:''
+        CheckBox:
+            id: cro
+        Label:
+            text:'Crocante'
+        TextInput:
+            id: q6
+            text:''
+
+    Label:
+        id: mensagem
+        text:''
+    BoxLayout:
+        orientation:'horizontal'
         size_hint_y: 0.15
         Spinner:
+            id: sp1
             size_hint_y: None
             height: 40
-        Label:
             text: 'Escolha o tipo de pagamento'
+            values: ('À vista (espécie)', 'À vista (pix)', 'À vista (cartão de crédito)', 'Parcelado 2x no cartão de crédito')
+            on_text: root.tipo_pagamento(self.text)
+        Spinner:
+            id: tmnho
+            size_hint_y: None
+            height: 40
+            text: 'Esolha o tamanho'
+            values: 'Pequena', 'Média', 'Grande', 'Gigante'
 
-        RadioButton:
-            group: 'pagamento'
-            text: 'À vista (espécie)'
-            on_active: root.on_radio_button_active(self.active)
-
-        RadioButton:
-            group: 'pagamento'
-            text: 'À vista (pix)'
-            on_active: root.on_radio_button_active(self.active)
-
-        RadioButton:
-            group: 'pagamento'
-            text: 'À vista (cartão de crédito)'
-            on_active: root.on_radio_button_active(self.active)
-
-        RadioButton:
-            group: 'pagamento'
-            text: 'Parcelado 2x cartão de crédito'
-            on_active: root.on_radio_button_active(self.active)
-     
-    Button:
-        text: 'Calcular'
-        size_hint_y: None
-        height: 40
-        on_press: app.calcular_total(self)
-    
-    Label:
-        text: ''
-        halign: 'center'
-    
-    Button:
-        text: 'Limpar Campos'
-        size_hint_y: None
-        height: 40
-        on_press: app.limpar_campos(self)
-    
-    Button:
-        text: 'Sair'
-        size_hint_y: None
-        height: 40
-        on_press: app.stop()
+        
+            
+        Button:
+            text: 'Calcular Total'
+            size_hint_y: None
+            height: 40
+            on_release: root.calcular_total()
+        
+        Button:
+            text: 'Limpar Tudo'
+            size_hint_y: None
+            height: 40
+            on_release: root.limpar_campos()
+        
+        Button:
+            text: 'Sair'
+            size_hint_y: None
+            height: 40
+            on_press: app.stop()
