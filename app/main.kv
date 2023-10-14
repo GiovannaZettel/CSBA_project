@@ -1,5 +1,11 @@
 <PedidoApp>:
     orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: 0.8, 0.4, 0, 1  # Cor laranja escura (R, G, B, alpha)
+        Rectangle:
+            pos: self.pos
+            size: self.size
     Label:
         text: 'Pizza do Papa'
         font_size: 20
