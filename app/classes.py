@@ -2,6 +2,18 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 
 class PedidoApp(BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.tipo_pagamento_selecionado = ''
+        self.valores_sabores = {
+        'Quatro queijos': 25,
+        'Mussarela': 20,
+        'Calabresa': 22,
+        'Portuguesa': 23,
+        'Frango c/ Catupiry': 24,
+        'Crocante': 30
+    }
+
     def tipo_pagamento(self, tipo_p):
         if tipo_p == 'À vista (espécie)':
             self.ids.mensagem.text = "Pagamento a vista"
@@ -11,6 +23,8 @@ class PedidoApp(BoxLayout):
             self.ids.mensagem.text = "Pagamento por cartão de crédito"
         elif tipo_p == 'Parcelado 2x no cartão de crédito':
             self.ids.mensagem.text = "Pagamento parcelado 2x no cartão de crédito"
+            
+        self.tipo_pagamento_selecionado = tipo_p
         
     def sair(self, instance):
         # Função para sair da aplicação
@@ -39,7 +53,7 @@ class PedidoApp(BoxLayout):
         self.ids.cro.active = False
         self.ids.mensagem.text=''
 
-    def calcular_total(self):
+    def calcular_total(self, ):
         valor_total = 0
 
         sabores_quantidades = {
@@ -51,14 +65,6 @@ class PedidoApp(BoxLayout):
             'Crocante': self.ids.q6.text
         }
 
-        valores_sabores = {
-            'Quatro queijos': 25,
-            'Mussarela': 20,
-            'Calabresa': 22,
-            'Portuguesa': 23,
-            'Frango c/ Catupiry': 24,
-            'Crocante': 30
-        }
 
         for sabor, quantidade_str in sabores_quantidades.items():
             # Se a quantidade for uma string vazia, consideramos como 0
@@ -72,7 +78,7 @@ class PedidoApp(BoxLayout):
                     return
 
                 # Adiciona o valor do sabor ao valor total
-                valor_total += quantidade * valores_sabores[sabor]
+                valor_total += quantidade * self.valores_sabores[sabor]
 
         tamanho_selecionado = self.ids.tmnho.text
 
@@ -80,13 +86,13 @@ class PedidoApp(BoxLayout):
         valor_pizza = self.calcular_valor_pizza()
 
         # Adicione o valor do tamanho da pizza ao valor total
-        if tamanho_selecionado == 'Pequena':
+        if tamanho_selecionado == 'Pequena (4 pedaços)':
             valor_total *= 1.0  # Multiplicação pelo tamanho
-        elif tamanho_selecionado == 'Média':
+        elif tamanho_selecionado == 'Média (6 pedaços)':
             valor_total *= 1.2
-        elif tamanho_selecionado == 'Grande':
+        elif tamanho_selecionado == 'Grande (8 Pedaços)':
             valor_total *= 1.5
-        elif tamanho_selecionado == 'Gigante':
+        elif tamanho_selecionado == 'Gigante (12 pedaços)':
             valor_total *= 2.0
 
         # Multiplique pelo número de pizzas
@@ -94,7 +100,7 @@ class PedidoApp(BoxLayout):
         valor_total *= quantidade_total
 
         nome_usuario = self.ids.nome_usuario.text
-        self.ids.mensagem.text = f'O valor da compra de {nome_usuario} totalizou R$ {valor_total:.2f}'
+        self.ids.mensagem.text = f'O valor da compra do(a) {nome_usuario} totalizou R$ {valor_total:.2f} {self.tipo_pagamento_selecionado}'
 
     def calcular_valor_pizza(self):
         valor_pizza = 0
